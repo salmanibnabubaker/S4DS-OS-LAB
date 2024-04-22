@@ -12,13 +12,14 @@ void sort_arr(int n,int p[n],int arr_t[n],int burst_t[n]){
                 swap(&p[j],&p[j+1]);
                 swap(&burst_t[j],&burst_t[j+1]);
             }
-            else if(arr_t[j]==arr_t[j+1]){
+            /*else if(arr_t[j]==arr_t[j+1]){
                 if(burst_t[j]>burst_t[j+1]){
                     swap(&arr_t[j],&arr_t[j+1]);
                     swap(&p[j],&p[j+1]);
                     swap(&burst_t[j],&burst_t[j+1]);
                 }
             }
+            */
         }
     }
 }
@@ -44,13 +45,14 @@ void sort_proc(int n,int p[n],int arr_t[n],int burst_t[n],int comp_t[n],int turn
     }
     
 }
-void averages(int n,int turn_t[n],int wait_t[n]){
-    float a=0,b=0;
+void averages(int n,int comp_t[n],int turn_t[n],int wait_t[n]){
+    float a=0,b=0,c=0;
     for(int i=0;i<n;i++){
         a+=turn_t[i];
         b+=wait_t[i];
+        c+=comp_t[i];
     }
-    printf("average turn arounfd time is:%f\naverage waiting time is:%f",a/n,b/n);
+    printf("average completion time is:%f\naverage turn arounfd time is:%f\naverage waiting time is:%f",c/n,a/n,b/n);
 }
 void fcfs(int n,int p[n],int arr_t[n],int burst_t[n]){
     
@@ -63,12 +65,12 @@ void fcfs(int n,int p[n],int arr_t[n],int burst_t[n]){
         t+=burst_t[i];
         comp_t[i]=t;
         turn_t[i]=comp_t[i]-arr_t[i];
-        wait_t[i]=comp_t[i]-burst_t[i];
+        wait_t[i]=comp_t[i]-(burst_t[i]+arr_t[i]);
         
     }
     sort_proc(n,p,arr_t,burst_t,comp_t,turn_t,wait_t);
     displaydetails(n,p,arr_t,burst_t,comp_t,turn_t,wait_t);
-    averages(n,turn_t,wait_t);
+    averages(n,comp_t,turn_t,wait_t);
 }
 void main(){
     int n;
